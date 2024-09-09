@@ -1,50 +1,39 @@
-# React + TypeScript + Vite
+# Zava Movies
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Zava Movies é uma aplicação web desenvolvida em React que exibe uma lista de filmes populares consumindo dados de uma API de filmes. O projeto utiliza paginação e permite que os usuários visualizem detalhes como o título, sinopse e imagem dos filmes.
 
-Currently, two official plugins are available:
+## Funcionalidades
+- Listagem de filmes populares
+- Paginação para navegar pelos filmes
+- Exibição de detalhes como título, sinopse, e imagem do filme
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## Tecnologias utilizadas
+- React
+- Axios para requisições HTTP
+- API de filmes para dados dinâmicos
 
-## Expanding the ESLint configuration
+## Pré-requisitos
 
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
+Antes de começar, certifique-se de ter instalado na sua máquina as seguintes ferramentas:
+- [Git](https://git-scm.com)
+- [Node.js](https://nodejs.org/en/)
 
-- Configure the top-level `parserOptions` property like this:
+Além disso, é recomendável o uso de um editor como o [VSCode](https://code.visualstudio.com/).
 
-```js
-export default tseslint.config({
-  languageOptions: {
-    // other options...
-    parserOptions: {
-      project: ['./tsconfig.node.json', './tsconfig.app.json'],
-      tsconfigRootDir: import.meta.dirname,
-    },
-  },
-})
-```
+Também é necessário que o usuário tenha uma chave da API.
+Clique no [Link](https://developer.themoviedb.org/docs/getting-started) e faça um cadastro para conseguir a chave.
 
-- Replace `tseslint.configs.recommended` to `tseslint.configs.recommendedTypeChecked` or `tseslint.configs.strictTypeChecked`
-- Optionally add `...tseslint.configs.stylisticTypeChecked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and update the config:
+## Guia para Clonagem e Inicialização do Projeto
 
-```js
-// eslint.config.js
-import react from 'eslint-plugin-react'
+```bash
+# Clone este repositório
+$ git clone https://github.com/hiagozavarize/zava-movies.git
 
-export default tseslint.config({
-  // Set the react version
-  settings: { react: { version: '18.3' } },
-  plugins: {
-    // Add the react plugin
-    react,
-  },
-  rules: {
-    // other rules...
-    // Enable its recommended rules
-    ...react.configs.recommended.rules,
-    ...react.configs['jsx-runtime'].rules,
-  },
-})
-```
+# Acesse o diretório do projeto
+$ cd zava-movies
+
+# Instale as dependências
+$ npm install
+
+# Inicie a aplicação
+$ npm start
