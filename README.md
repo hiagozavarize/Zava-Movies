@@ -36,4 +36,4 @@ $ cd zava-movies
 $ npm install
 
 # Inicie a aplicação
-$ npm start
+$ npm run dev
