@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
+import { useSearchParams } from "react-router-dom";
 
-import { ChevronLeft } from "lucide-react";
-import { ChevronRight } from "lucide-react";
+import { ChevronLeft, ChevronRight } from "lucide-react";
 
 import Star from "../assets/rating-star.png";
 import { PaginationButton } from "./paginationButton";
@@ -11,32 +11,21 @@ import { Movie } from "../api";
 
 export default function ListOfPopularMovies() {
   const [popularMovies, setPopularMovies] = useState<Movie[]>([]);
-  const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
-  const imageUrlBase = "https://image.tmdb.org/t/p/w300";
+  const [searchParams, setSearchParams] = useSearchParams();
+  const imageUrlBase = "https://image.tmdb.org/t/p/w500";
   const moviesPerPage = 5;
+
+  // Obter o número da página a partir do parâmetro da URL
+  const currentPage = Number(searchParams.get("page")) || 1;
 
   useEffect(() => {
     async function fetchPopularMovies() {
       try {
         const response = await getAllPopularMovies();
-        setTotalPages(Math.ceil(response.length / moviesPerPage));
-        setPopularMovies(response.slice(0, moviesPerPage));
-      } catch (error) {
-        console.error(error);
-      }
-    }
-    fetchPopularMovies();
-  }, []);
-
-  const changePage = (page: number) => {
-    if (page < 1 || page > totalPages) return;
-
-    setCurrentPage(page);
-    async function fetchPopularMovies() {
-      try {
-        const response = await getAllPopularMovies();
-        const start = (page - 1) * moviesPerPage;
+        const totalMovies = response.length;
+        setTotalPages(Math.ceil(totalMovies / moviesPerPage));
+        const start = (currentPage - 1) * moviesPerPage;
         const end = start + moviesPerPage;
         setPopularMovies(response.slice(start, end));
       } catch (error) {
@@ -44,18 +33,26 @@ export default function ListOfPopularMovies() {
       }
     }
     fetchPopularMovies();
+  }, [currentPage]);
+
+  const changePage = (page: number) => {
+    if (page < 1 || page > totalPages) return;
+    setSearchParams({ page: String(page) });
+    window.scrollTo({ top: 0, behavior: "smooth" });
   };
 
   const goToNextPage = () => {
     if (currentPage < totalPages) {
       changePage(currentPage + 1);
     }
+    window.scrollTo({ top: 0, behavior: "smooth" });
   };
 
   const goToPreviousPage = () => {
     if (currentPage > 1) {
       changePage(currentPage - 1);
     }
+    window.scrollTo({ top: 0, behavior: "smooth" });
   };
 
   return (
@@ -94,6 +91,14 @@ export default function ListOfPopularMovies() {
               <p className="text-base font-normal text-justify overflow-auto">
                 {movie.overview ? movie.overview : "Sinopse indisponível."}
               </p>
+              <span className="text-base font-medium mt-11">
+                Data de lançamento:{" "}
+                {new Date(movie.release_date).toLocaleDateString("pt-BR", {
+                  day: "2-digit",
+                  month: "2-digit",
+                  year: "numeric",
+                })}
+              </span>
             </div>
           </div>
         ))}
@@ -113,7 +118,7 @@ export default function ListOfPopularMovies() {
                 key={page}
                 page={page}
                 currentPage={currentPage}
-                onClick={changePage}
+                onClick={() => changePage(page)}
               />
             ))}
           </div>
